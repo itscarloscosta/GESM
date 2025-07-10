@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.env
+.venv
+venv/
+ENV/
+env/
+
+# Node
+node_modules/
+dist/
+.npm
+
+# Docker
+.dockerignore
+docker-compose.yml.override

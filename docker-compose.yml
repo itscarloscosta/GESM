@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=gesm_user
+      - POSTGRES_PASSWORD=gesm_password
+      - POSTGRES_DB=gesm_db
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://gesm_user:gesm_password@db:5432/gesm_db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80" # Mapeia a porta 80 do Nginx para a 5173 da sua máquina
+    volumes:
+      - ./frontend/src:/app/src # Sincroniza apenas a pasta 'src' para desenvolvimento
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
